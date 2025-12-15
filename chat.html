@@ -2,73 +2,80 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Web Input History</title>
+    <title>Global Chat</title>
 </head>
 <body>
 
-    <h1>Type a message</h1>
+    <h1>Global Message Board</h1>
 
     <input type="text" id="userInput" placeholder="Type a message...">
     <button onclick="addMessage()">Send</button>
-    <button onclick="clearHistory()">Clear All</button>
+    <button onclick="clearMessages()">Clear All</button>
 
     <hr>
+    <h2>Live Messages:</h2>
+    <ul id="outputArea">Loading...</ul>
 
-    <h2>Last 5 messages:</h2>
-    <ul id="outputArea"></ul>
+    <script type="module">
+        // 1. Import the tools we need from Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, push, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    <script>
-        // 1. Load the history when the page opens
-        window.onload = function() {
-            renderHistory();
-        }
+        // 2. PASTE YOUR CONFIGURATION HERE vvv
+        // (Replace this block with the code you copied from Firebase Console)
+       const firebaseConfig = {
+  apiKey: "AIzaSyCgz9glYGU4XrYOLyOx42eDnMsxEWAyW60",
+  authDomain: "chatting-392af.firebaseapp.com",
+  databaseURL: "https://chatting-392af-default-rtdb.firebaseio.com",
+  projectId: "chatting-392af",
+  storageBucket: "chatting-392af.firebasestorage.app",
+  messagingSenderId: "833317429026",
+  appId: "1:833317429026:web:3e8396f4506f8123d40f7b",
+  measurementId: "G-XPM4SG68C1"
+};
+        // ^^^ END CONFIGURATION
 
-        function addMessage() {
+        // 3. Start Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const messagesRef = ref(db, 'messages');
+
+        // 4. FUNCTION: Send Data
+        window.addMessage = function() {
             const inputElement = document.getElementById("userInput");
-            const newMessage = inputElement.value;
+            const msg = inputElement.value;
 
-            // Don't save empty messages
-            if (newMessage.trim() === "") return;
+            if (msg.trim() === "") return;
 
-            // A. GET existing history or start a new empty list
-            let history = JSON.parse(localStorage.getItem("myHistory")) || [];
-
-            // B. ADD the new message to the END of the list
-            history.push(newMessage);
-
-            // C. TRIM the list: If more than 5, remove the oldest (the first one)
-            if (history.length > 5) {
-                history.shift(); // .shift() removes the first item
-            }
-
-            // D. SAVE the updated list back to storage
-            localStorage.setItem("myHistory", JSON.stringify(history));
-
-            // E. UPDATE the screen
-            renderHistory();
-            inputElement.value = ""; // Clear the input box
-        }
-
-        function renderHistory() {
-            const history = JSON.parse(localStorage.getItem("myHistory")) || [];
-            const outputElement = document.getElementById("outputArea");
-
-            // Clear the current display so we don't list things twice
-            outputElement.innerHTML = "";
-
-            // Loop through the history and create list items <li>
-            // We use .reverse() here so the NEWEST message appears at the TOP
-            history.reverse().forEach(function(msg) {
-                // formatting as a list item
-                // ⚠️ CAUTION: Still using innerHTML (No Sanitization) as requested
-                outputElement.innerHTML += "<li>" + msg + "</li>";
+            // Save to database
+            push(messagesRef, {
+                text: msg
             });
+
+            inputElement.value = ""; // Clear box
         }
-        
-        function clearHistory() {
-            localStorage.removeItem("myHistory");
-            renderHistory(); // Update the screen to show it's empty
+
+        // 5. FUNCTION: Clear Data
+        window.clearMessages = function() {
+            set(messagesRef, null); // Deleting the 'messages' node clears it
         }
+
+        // 6. LISTENER: Update Screen Automatically
+        onValue(messagesRef, (snapshot) => {
+            const outputElement = document.getElementById("outputArea");
+            outputElement.innerHTML = ""; // Reset list
+            
+            const data = snapshot.val();
+            
+            if (data) {
+                // Loop through messages and display them
+                Object.values(data).forEach(msg => {
+                    outputElement.innerHTML += `<li>${msg.text}</li>`;
+                });
+            } else {
+                outputElement.innerHTML = "No messages yet.";
+            }
+        });
     </script> 
 </body>
 </html>
