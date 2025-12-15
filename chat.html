@@ -2,39 +2,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Web Input Display</title>
+    <title>Web Input History</title>
 </head>
 <body>
 
-    <h1>Input Display Example</h1>
+    <h1>Type a message</h1>
 
-    <input type="text" id="userInput" placeholder="Type your message here...">
-
-    <button onclick="printRawHTML()">Display Text Below</button>
+    <input type="text" id="userInput" placeholder="Type a message...">
+    <button onclick="addMessage()">Send</button>
+    <button onclick="clearHistory()">Clear All</button>
 
     <hr>
 
-    <h2>Your Output:</h2>
-    <p id="outputArea"></p>
+    <h2>Last 5 messages:</h2>
+    <ul id="outputArea"></ul>
 
     <script>
-        // 1. Check if we have saved text when the page loads
+        // 1. Load the history when the page opens
         window.onload = function() {
-            const savedText = localStorage.getItem("mySavedText");
-            if (savedText) {
-                document.getElementById("outputArea").innerHTML = savedText;
-            }
+            renderHistory();
         }
 
-        function printRawHTML() {
+        function addMessage() {
             const inputElement = document.getElementById("userInput");
-            const outputElement = document.getElementById("outputArea");
-            
-            // 2. Save the input to the browser's Local Storage
-            localStorage.setItem("mySavedText", inputElement.value);
+            const newMessage = inputElement.value;
 
-            // 3. Display it
-            outputElement.innerHTML = inputElement.value; 
+            // Don't save empty messages
+            if (newMessage.trim() === "") return;
+
+            // A. GET existing history or start a new empty list
+            let history = JSON.parse(localStorage.getItem("myHistory")) || [];
+
+            // B. ADD the new message to the END of the list
+            history.push(newMessage);
+
+            // C. TRIM the list: If more than 5, remove the oldest (the first one)
+            if (history.length > 5) {
+                history.shift(); // .shift() removes the first item
+            }
+
+            // D. SAVE the updated list back to storage
+            localStorage.setItem("myHistory", JSON.stringify(history));
+
+            // E. UPDATE the screen
+            renderHistory();
+            inputElement.value = ""; // Clear the input box
+        }
+
+        function renderHistory() {
+            const history = JSON.parse(localStorage.getItem("myHistory")) || [];
+            const outputElement = document.getElementById("outputArea");
+
+            // Clear the current display so we don't list things twice
+            outputElement.innerHTML = "";
+
+            // Loop through the history and create list items <li>
+            // We use .reverse() here so the NEWEST message appears at the TOP
+            history.reverse().forEach(function(msg) {
+                // formatting as a list item
+                // ⚠️ CAUTION: Still using innerHTML (No Sanitization) as requested
+                outputElement.innerHTML += "<li>" + msg + "</li>";
+            });
+        }
+        
+        function clearHistory() {
+            localStorage.removeItem("myHistory");
+            renderHistory(); // Update the screen to show it's empty
         }
     </script> 
 </body>
