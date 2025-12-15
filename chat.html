@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Input Display</title>
+</head>
+<body>
+
+    <h1>Input Display Example</h1>
+
+    <input type="text" id="userInput" placeholder="Type your message here...">
+
+    <button onclick="printRawHTML()">Display Text Below</button>
+
+    <hr>
+
+    <h2>Your Output:</h2>
+    <p id="outputArea"></p>
+
+    <script>
+        // 1. Check if we have saved text when the page loads
+        window.onload = function() {
+            const savedText = localStorage.getItem("mySavedText");
+            if (savedText) {
+                document.getElementById("outputArea").innerHTML = savedText;
+            }
+        }
+
+        function printRawHTML() {
+            const inputElement = document.getElementById("userInput");
+            const outputElement = document.getElementById("outputArea");
+            
+            // 2. Save the input to the browser's Local Storage
+            localStorage.setItem("mySavedText", inputElement.value);
+
+            // 3. Display it
+            outputElement.innerHTML = inputElement.value; 
+        }
+    </script> 
+</body>
+</html>
