@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Himanshu Mishra | Portfolio</title>
+    <style>
+        /* CSS Variables for Palette Control */
+        :root {
+            --bg-pure-white: #ffffff;
+            --bg-soft-blue: #f4f7fa;
+            --primary-navy: #0f2d59;
+            --accent-royal: #2563eb;
+            --text-dark: #1c2430;
+            --text-muted: #4a5568;
+            --border-light: #e2e8f0;
+            --max-width: 1050px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: var(--bg-pure-white);
+            color: var(--text-dark);
+            line-height: 1.7;
+            padding-top: 80px; /* Offset for sticky nav */
+        }
+
+        /* Typography Hierarchy */
+        h1, h2, h3, h4 {
+            color: var(--primary-navy);
+            font-weight: normal;
+        }
+
+        p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+        }
+
+        /* Navigation Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid var(--border-light);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem;
+        }
+
+        .nav-logo {
+            font-size: 1.4rem;
+            color: var(--primary-navy);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            margin-left: 2.2rem;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-royal);
+        }
+
+        /* Global Section Layout */
+        .section {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 5.5rem 2rem;
+        }
+
+        .section-tint {
+            background-color: var(--bg-soft-blue);
+            max-width: 100%;
+            width: 100%;
+        }
+
+        .section-tint .section-inner {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 5.5rem 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 3.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary-navy);
+        }
+
+        /* Hero Split Section */
+        .hero-container {
+            display: flex;
+            gap: 3.5rem;
+            align-items: center;
+            padding-top: 3rem;
+            padding-bottom: 4.5rem;
+        }
+
+        .hero-text {
+            flex: 1.3;
+        }
+
+        .hero-text h1 {
+            font-size: 3.2rem;
+            line-height: 1.15;
+            margin-bottom: 0.8rem;
+        }
+
+        .hero-tagline {
+            font-size: 1.25rem;
+            color: var(--accent-royal);
+            font-style: italic;
+            margin-bottom: 1.8rem;
+        }
+
+        .hero-desc {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Horizontal Image Placeholder */
+        .hero-image-wrapper {
+            flex: 1;
+        }
+
+        .horizontal-image-container {
+            width: 100%;
+            aspect-ratio: 1.618 / 1; /* Golden ratio horizontal landscape */
+            background-color: var(--bg-soft-blue);
+            border: 1px dashed #cbd5e1;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-style: italic;
+            text-align: center;
+            padding: 1.5rem;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+
+        .horizontal-image-container:hover {
+            border-color: var(--accent-royal);
+        }
+
+        .horizontal-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Core Competencies Row */
+        .competencies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .competency-item h4 {
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Stacked Comprehensive Projects Layout */
+        .project-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        .project-block {
+            background: var(--bg-pure-white);
+            border: 1px solid var(--border-light);
+            padding: 3rem;
+            border-radius: 4px;
+            box-shadow: 0 4px 30px rgba(15, 45, 89, 0.02);
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1.2rem;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 0.8rem;
+        }
+
+        .project-title {
+            font-size: 1.6rem;
+        }
+
+        .project-tech {
+            font-style: italic;
+            color: var(--accent-royal);
+            font-size: 0.95rem;
+        }
+
+        .project-desc {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .project-highlights {
+            list-style-type: square;
+            margin-left: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .project-highlights li {
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        /* Achievements Elegant Timeline-List */
+        .achievement-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .achievement-row {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 1.8rem;
+        }
+
+        .achievement-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .achievement-context {
+            font-size: 1rem;
+            color: var(--accent-royal);
+            font-style: italic;
+        }
+
+        .achievement-details h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.4rem;
+        }
+
+        /* Contact Modern Matrix Layout */
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-intro p {
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-links-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .contact-card {
+            background: var(--bg-pure-white);
+            border: 1px solid var(--border-light);
+            padding: 1.5rem;
+            border-radius: 4px;
+        }
+
+        .contact-card label {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-royal);
+            margin-bottom: 0.4rem;
+        }
+
+        .contact-card a, .contact-card p {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 1rem;
+            word-break: break-all;
+        }
+
+        .contact-card a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-navy);
+            color: #ffffff;
+            text-align: center;
+            padding: 2.5rem;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* Responsive Breakdowns */
+        @media (max-width: 850px) {
+            .hero-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 2.5rem;
+            }
+            .hero-image-wrapper {
+                width: 100%;
+                max-width: 500px;
+            }
+            .section-title::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .section-title {
+                text-align: center;
+            }
+            .project-meta {
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+            .achievement-row {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            .contact-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation Grid -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="nav-logo">H. MISHRA</a>
+            <nav class="nav-links">
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#achievements">Achievements</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Flow -->
+    <main>
+
+        <!-- Hero Section -->
+        <section id="about" class="section">
+            <div class="hero-container">
+                <div class="hero-text">
+                    <h1>Himanshu Mishra</h1>
+                    <div class="hero-tagline">Computer Science & Engineering | IIT (BHU) Varanasi</div>
+                    <p class="hero-desc">
+                        A software engineer driven by technical precision, balance, and human-centric design. Immersed in the rigorous study of core computing systems, while simultaneously engaging with literary composition and structured argumentation.
+                    </p>
+                    <p class="hero-desc">
+                        My development philosophy centers on parsing complex data vectors into deterministic tools—whether tracking shifting global weather cycles, training predictive engines for resource sustainability, or building immediate, context-driven healthcare systems.
+                    </p>
+                </div>
+                
+                <!-- Horizontal Image Container Place -->
+                <div class="hero-image-wrapper">
+                    <div class="horizontal-image-container">
+                        <!-- Insert your image source below when available -->
+                        <!-- <img src="your-horizontal-photo.jpg" alt="Himanshu Mishra"> -->
+                        <span>[ Place Horizontal Image Here ]</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expanded Section: Core Competencies -->
+            <div class="competencies-grid">
+                <div class="competency-item">
+                    <h4>Core Computing</h4>
+                    <p>Data Structures, Algorithm Analysis, Software Architecture.</p>
+                </div>
+                <div class="competency-item">
+                    <h4>Data Science & ML</h4>
+                    <p>Predictive Modeling, Dimensional Vectors, Framework Engineering.</p>
+                </div>
+                <div class="competency-item">
+                    <h4>Automation Systems</h4>
+                    <p>API Orchestration, Interactive Protocols, Streamlit Web Interfaces.</p>
+                </div>
+                <div class="competency-item">
+                    <h4>Rhetoric & Discourse</h4>
+                    <p>Structural Refutation, Casing Mechanics, Strategic Communication.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comprehensive Projects Section -->
+        <section id="projects" class="section-tint">
+            <div class="section-inner">
+                <h2 class="section-title">Engineered Solutions</h2>
+                <div class="project-stack">
+
+                    <!-- Project One -->
+                    <div class="project-block">
+                        <div class="project-meta">
+                            <h3 class="project-title">PyClimaExplorer</h3>
+                            <span class="project-tech">Python, XArray, Streamlit, Core Analytics</span>
+                        </div>
+                        <p class="project-desc">
+                            Designed and developed an intuitive climatic visualization suite tailored to translate multi-dimensional weather datasets into actionable visual insights. The platform consumes high-density spatial arrays and processes heavy atmospheric records to render clear, color-coded visual matrices mapping localized temperature anomalies and precipitation thresholds.
+                        </p>
+                        <ul class="project-highlights">
+                            <li>Processes complex geospatial arrays cleanly across custom time frames.</li>
+                            <li>Employs dynamic, intuitive color gradients to isolate anomalous weather patterns instantly.</li>
+                            <li>Implements a highly responsive UI built to minimize localized computational load.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Project Two -->
+                    <div class="project-block">
+                        <div class="project-meta">
+                            <h3 class="project-title">Agricultural Output Predictor (SIH)</h3>
+                            <span class="project-tech">Machine Learning, Predictive Vector Models, Python</span>
+                        </div>
+                        <p class="project-desc">
+                            Engineered for the Smart India Hackathon (SIH), this forward-looking predictive engine isolates complex patterns within environmental data to forecast regional agricultural output. By tracking variations in soil composition vectors, historical rain data, and seasonal crop shifts, the algorithm generates highly optimized data models that point towards maximize output security.
+                        </p>
+                        <ul class="project-highlights">
+                            <li>Optimized multi-variable data pipelines for consistent prediction metrics.</li>
+                            <li>Assists in localized structural risk management regarding unexpected seasonal swings.</li>
+                            <li>Recognized within the highly competitive framework of the Smart India Hackathon.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Project Three -->
+                    <div class="project-block">
+                        <div class="project-meta">
+                            <h3 class="project-title">Diabetic Dietary Health Auditor</h3>
+                            <span class="project-tech">Telegram API, Conversational Logic, JSON Automation</span>
+                        </div>
+                        <p class="project-desc">
+                            Developed an automated, interactive health auditing agent deployed on the Telegram ecosystem, specifically calibrated for diabetic patients. The bot acts as an immediate dietary consultation gateway, parsing text-based food queries against explicit nutritional safety standards, structural glycemic indexes, and meal limits.
+                        </p>
+                        <ul class="project-highlights">
+                            <li>Built asynchronous web request pathways to minimize query execution times.</li>
+                            <li>Outputs strict dietary bounds (permitted items versus risky variations) dynamically.</li>
+                            <li>Abstracts complex medical dietary guidelines into simple, immediate text outputs.</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Cultural Achievements Section -->
+        <section id="achievements" class="section">
+            <h2 class="section-title">Distinctions & Creative Capital</h2>
+            <div class="achievement-timeline">
+
+                <div class="achievement-row">
+                    <div class="achievement-context">Inter IIT 2026</div>
+                    <div class="achievement-details">
+                        <h3>Poetry Verticals Contingent Representative</h3>
+                        <p>Selected to represent the structural literary contingent of IIT (BHU) Varanasi at the Inter IIT Cultural Meet 2026, executing nuanced poetic compositions within competitive environments.</p>
+                    </div>
+                </div>
+
+                <div class="achievement-row">
+                    <div class="achievement-context">IIT Bhubaneswar</div>
+                    <div class="achievement-details">
+                        <h3>Double Silver Podium Finish</h3>
+                        <p>Secured the 2nd Rank across two independent national-level competitive poetry symposia, evaluated heavily on structural composition, precise rhythm maintenance, and thematic execution.</p>
+                    </div>
+                </div>
+
+                <div class="achievement-row">
+                    <div class="achievement-context">Aura IV 2026</div>
+                    <div class="achievement-details">
+                        <h3>Novice Category Break</h3>
+                        <p>Successfully broke into the competitive advanced tiers within the Novice classification at the Aura IV Parliamentary Debating Tournament, demonstrating rigorous refutation models under limited preparation times.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section-tint">
+            <div class="section-inner">
+                <h2 class="section-title">Communication Channels</h2>
+                <div class="contact-layout">
+                    
+                    <div class="contact-intro">
+                        <p>
+                            I welcome structural collaborations regarding data-driven engineering projects, analytical framework design, or interdisciplinary projects bridging code and cultural expression.
+                        </p>
+                        <p>
+                            Reach out through any of the verified channels provided, or initiate a direct secure query via Telegram.
+                        </p>
+                    </div>
+
+                    <div class="contact-links-grid">
+                        
+                        <div class="contact-card">
+                            <label>Primary Institutional Email</label>
+                            <a href="mailto:himanshu.mishra.cse25@iitbhu.ac.in">himanshu.mishra.cse25@iitbhu.ac.in</a>
+                        </div>
+
+                        <div class="contact-card">
+                            <label>Personal Backup Email</label>
+                            <a href="mailto:hmmishra4215@gmail.com">hmmishra4215@gmail.com</a>
+                        </div>
+
+                        <div class="contact-card">
+                            <label>Direct Contact Line</label>
+                            <p>+91 9696191430</p>
+                        </div>
+
+                        <div class="contact-card">
+                            <label>Telegram Direct</label>
+                            <a href="https://t.me/DtMishra" target="_blank">@DtMishra</a>
+                        </div>
+
+                        <div class="contact-card" style="grid-column: span 2;">
+                            <label>Professional Registry</label>
+                            <!-- Replace the '#' below with your final LinkedIn profile URL -->
+                            <a href="#" target="_blank" style="color: var(--accent-royal); font-weight: bold;">Connect on LinkedIn Profile &rarr;</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Element -->
+    <footer>
+        <p>&copy; 2026 Himanshu Mishra &bull; Computer Science & Engineering, IIT (BHU) Varanasi</p>
+    </footer>
+
+</body>
+</html>
